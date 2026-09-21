@@ -70,7 +70,6 @@ async def forhin2(obs):
     await grå_linje(obs)
 
 #Opgave 3 Skub flaske 
-
 async def forhin3(obs):
     motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 45, 0 ,100)
     await runloop.sleep_tank_ms(500)
