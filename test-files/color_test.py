@@ -1,34 +1,57 @@
-from hub import light_matrix, port
+from hub import port
 import runloop
-import color_sensor
 import motor_pair
+import color_sensor
+import color
 
-async def main():
-    # write your code here
+obs = 0
+THRESHOLD = 75# reflection value below this = "on a bar" — tune on your mat
+motor_pair.pair(motor_pair.PAIR_1, port.B, port.A)
+
+async def grå_linje(obs):
     while True:
-
-        left = color_sensor.reflection(port.C)
-        right = color_sensor.reflection(port.D)
-        # testing Black color detection in prep for challenge loading
-        if color_sensor.color(port.C) == color_sensor.Color.BLACK or color_sensor.color(port.D) == color_sensor.Color.BLACK:
-            motor_pair.stop(motor_pair.PAIR_1, stop=motor_pair.BRAKE)
+        if color_sensor.color(port.C) == color.BLACK or color_sensor.color(port.D) == color.BLACK:
+            motor_pair.stop(motor_pair.PAIR_1)
+            obs = obs + 1
+            await forhin5(obs)
+            continue
         else:
-            if left > 75 and right > 75:
-                # Both on white → drive straight
-                motor_pair.move(motor_pair.PAIR_1, 0, velocity=550)
-
-            elif left <= 75 and right > 75:
-                # Left is off white → turn left
-                motor_pair.move(motor_pair.PAIR_1, 40, velocity=100)
-
-            elif left > 75 and right <= 75:
-                # Right is off white → turn right
-                motor_pair.move(motor_pair.PAIR_1, -40, velocity=100)
-
-            else:
-                # Both off white → stop
-                motor_pair.stop(motor_pair.PAIR_1, stop=motor_pair.BRAKE)
-
+            motor_pair.move_tank(motor_pair.PAIR_1, color_sensor.reflection(port.D)*2, color_sensor.reflection(port.C)*2)
         await runloop.sleep_ms(10)
 
-runloop.run(main())
+
+
+async def forhin5(obs):
+    motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 45, 0, 100)
+    await runloop.sleep_ms(500)
+
+    motor_pair.move_tank(motor_pair.PAIR_1, 250, 250)
+    count = 0
+    on_bar = False
+
+    while count < 3:
+        reflection = color_sensor.reflection(port.C)
+        currently_on_bar = reflection < THRESHOLD
+
+        if currently_on_bar and not on_bar:
+            count += 1
+            print("Bars counted:", count)
+
+        on_bar = currently_on_bar
+        await runloop.sleep_ms(10)
+
+    motor_pair.stop(motor_pair.PAIR_1)
+    print("Done crossing, total bars:", count)
+    await grå_linje(obs)
+
+
+async def main(x):
+    if x == 1:
+        print(1)
+    elif x == 2:
+        print(2)
+    elif x==5:
+        await forhin5(x)
+
+
+runloop.run(grå_linje(obs))
