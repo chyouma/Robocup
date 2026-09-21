@@ -20,6 +20,9 @@ async def grå_linje(obs):
         await runloop.sleep_ms(10)
 
 
+""""
+i
+"""
 
 # Opgave 1 (brudt strej)
 async def forhin1(obs):
