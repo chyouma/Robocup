@@ -21,7 +21,7 @@ async def grå_linje(obs):
 
 
 """"
-i
+iii
 """
 
 # Opgave 1 (brudt strej)
