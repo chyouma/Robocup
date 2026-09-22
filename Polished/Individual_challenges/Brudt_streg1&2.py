@@ -1,4 +1,9 @@
-
+from hub import port
+from hub import sound
+import runloop
+import motor_pair
+import color_sensor
+import color
 
 # Opgave 1 (brudt strej)
 async def forhin1(obs):
