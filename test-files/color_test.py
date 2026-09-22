@@ -99,6 +99,7 @@ async def forhin3(obs):
 
 
 
+
 #Opgave "5" (4 streger)
 async def forhin5(obs):
     motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 45, 0, 100)
