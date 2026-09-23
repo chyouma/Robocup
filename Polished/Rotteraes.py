@@ -5,10 +5,6 @@ import color_sensor
 import color
 
 
-
-
-
-
 """
 8888888b.   .d88888b. 88888888888 88888888888 8888888888 8888888b.         d8888 8888888888 .d8888b.  
 888   Y88b d88P" "Y88b    888         888     888        888   Y88b       d88888 888       d88P  Y88b 
@@ -19,7 +15,6 @@ import color
 888  T88b  Y88b. .d88P    888         888     888        888  T88b   d8888888888 888       Y88b  d88P 
 888   T88b  "Y88888P"     888         888     8888888888 888   T88b d88P     888 8888888888 "Y8888P"                                                                                                    
 """
-
 
 
 """
@@ -35,7 +30,6 @@ PITCH_THRESHOLD = 25  # pitch value that triggers "stop"
 motor_pair.pair(motor_pair.PAIR_1, port.B, port.A) # Motor A and B (from port a and b) is paired as PAIR_1
 
 
-
 # Gider ikke at ændre alle comments der er skrevet på engelsk til dansk eller omvendt, lev med det lol.
 
 async def forhin1():
@@ -47,11 +41,9 @@ async def forhin1():
 
     print("Starter opgave 1")
     
-    
     # Stop robotten kort
     motor_pair.stop(motor_pair.PAIR_1)
     await runloop.sleep_ms(300)
-    
     
     # Drej til højre
     await motor_pair.move_tank_for_degrees(
@@ -75,7 +67,6 @@ async def forhin1():
     #   ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
     #   
         
-    
     # Kør frem indtil en sensor finder den grå streg
     while True:
         venstre = color_sensor.reflection(port.D)
@@ -311,7 +302,6 @@ async def forhin5():
     print("Forhindring 5 færdig")
 
 
-
 async def forhin6(base_speed=200, correction_gain=3):
 
     """
@@ -345,7 +335,6 @@ async def forhin6(base_speed=200, correction_gain=3):
         await runloop.sleep_ms(10)
 
     print("Forhindring 6 færdig")
-
 
 
 async def forhin7():
@@ -453,10 +442,9 @@ async def forhin10():
 
 #
 #
-#
-# TILFØJ NU FORHELVEDE FLERE AF DE DER TEMPLATES HVIS DER ER BEHOV FOR DET,
-# OG IKKE MINDST ENDNU EN CHALLENGE PÅ DEN DER LISTE UNDER
-#
+# 
+#         TILFØJ NU FORHELVEDE FLERE AF DE DER TEMPLATES HVIS DER ER BEHOV FOR DET,
+#         OG IKKE MINDST ENDNU EN CHALLENGE PÅ DEN DER LISTE UNDER
 #
 #
 
@@ -512,13 +500,6 @@ async def kør_forhindring(obs):
         print("Ingen kode til forhindring:", obs)
 
 
-
-
-
-
-
-
-
 async def grå_linje():
 
     """
@@ -554,9 +535,7 @@ async def grå_linje():
             # Kør den korrekte forhindring ifølge den der fuckass liste med alle challenges.
             await kør_forhindring(obs)
 
-
             # Når forhindringen er færdig, fortsætter while-loopet automatisk.
-
 
         else:
 
@@ -576,9 +555,7 @@ async def grå_linje():
                 højre_hastighed
             )
 
-
         # Vent 10 ms før næste sensoraflæsning.
         await runloop.sleep_ms(10)
-
 
 runloop.run(grå_linje()) # Programmet er more or less det hovedprogram der køres, når der ikke er en aktiv challenge.
