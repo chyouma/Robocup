@@ -1,4 +1,4 @@
-from hub import port
+from hub import port, motion_sensor
 from hub import sound
 import runloop
 import motor_pair
@@ -14,6 +14,8 @@ The wanted music file just needs to be put where the user wants the music to sta
 
 obs = 0
 THRESHOLD = 75# reflection value below this = "on a bar" — tune on your mat
+PITCH_THRESHOLD = 25
+
 motor_pair.pair(motor_pair.PAIR_1, port.B, port.A)
 
 async def grå_linje(obs):
@@ -100,6 +102,38 @@ async def forhin3(obs):
     print("Done crossing, total bars:", count)
     await grå_linje(obs)
 
+# Opgave 4 (vippe)
+async def forhin4(base_speed=300, correction_gain=1): # mangler test
+
+    # Starter med at køre ligeud, og korrigerer for yaw drift fra den initiale (nulstillede) yaw.
+
+    print("forhin4 starting...")
+    motion_sensor.reset_yaw(0) # nulstilning af yaw til 0 grader
+    await runloop.sleep_ms(200)  # brief pause instead of waiting for motion_sensor.stable()
+
+    while True:
+        # Splitter vores tuple af (yaw, pitch, roll) ud i tre variabler
+        yaw, pitch, roll = motion_sensor.tilt_angles()
+        # Convertere decimal grader til grader (1/10) (why tf bruger de decimal grader 😭)
+        yaw_deg = yaw * -0.1 # * -0.1 skifter fortegn, da yaw er negativt når robotten drejer til højre, 
+        pitch_deg = pitch / 10  
+
+        # Lowk samme som der bliver gjort længere oppe i grå_linje men med base_speed for at kontrollere (tjek med grå linje senere)
+        correction = int(yaw_deg * correction_gain)
+        left_speed = base_speed + correction
+        right_speed = base_speed - correction
+
+        print("driving | yaw:", yaw_deg, "pitch:", pitch_deg, "L/R:", left_speed, right_speed) # testing
+        motor_pair.move_tank(motor_pair.PAIR_1, left_speed, right_speed)
+
+        if pitch_deg >= PITCH_THRESHOLD: # mangler buffer melllem dette og tilbagevendelse til normal kørsel
+            print("stop")
+            motor_pair.stop(motor_pair.PAIR_1) 
+            break
+
+        await runloop.sleep_ms(10)
+
+
 
 #Opgave "5" (4 streger)
 async def forhin5(obs):
@@ -131,6 +165,10 @@ async def main(x):
         print(1)
     elif x == 2:
         print(2)
+    elif x == 3:
+        await forhin3(x)
+    elif x == 4:
+        await forhin4(x)
     elif x==5:
         await forhin5(x)
 
