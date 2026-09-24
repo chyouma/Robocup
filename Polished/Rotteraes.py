@@ -21,6 +21,8 @@ import color
 SETTINGS
 """
 
+base_speed = 200
+
 obs = 0 # Cheks for current challenge
 
 THRESHOLD = 75 # Reflection-value under value is concidered a Dark Line - Adjust if necessary
