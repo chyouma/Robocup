@@ -337,6 +337,7 @@ async def forhin6(base_speed=200, correction_gain=3):
                 break
             motor_pair.move_tank_for_degrees(motor_pair.PAIR_1,90, 0, 100) # no clue om det her virker lol    
             print("Forhindring 6 færdig")
+            break
 
         await runloop.sleep_ms(10)
 
