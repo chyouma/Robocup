@@ -330,11 +330,13 @@ async def forhin6(base_speed=200, correction_gain=3):
         if pitch_deg >= PITCH_THRESHOLD:
             print("stop")
             motor_pair.stop(motor_pair.PAIR_1)
-            break
+            while abs(pitch_deg) < 2: # juster 2 til at være korrekt ift. at være stationær
+                motor_pair.move_tank(motor_pair.PAIR_1, color_sensor.reflection(port.D), color_sensor.reflection(port.C)) # juster måske
+                break
+            motor_pair.move_tank_for_degrees(motor_pair.PAIR_1,90, 0, 100) # no clue om det her virker lol    
+            print("Forhindring 6 færdig")
 
         await runloop.sleep_ms(10)
-
-    print("Forhindring 6 færdig")
 
 
 async def forhin7():
@@ -438,6 +440,45 @@ async def forhin10():
 
     print("Forhindring 10 færdig")    
 
+async def forhin11():
+
+    """
+     FORHINDRING 11
+     xxx
+    """
+
+    print("Starter forhindring 11")
+
+    # Tilføj kode til forhindring 11 her.
+
+    print("Forhindring 11 færdig")  
+
+async def forhin12():
+
+    """
+     FORHINDRING 12
+     xxx
+    """
+
+    print("Starter forhindring 12")
+
+    # Tilføj kode til forhindring 12 her.
+
+    print("Forhindring 12 færdig")  
+
+async def forhin13():
+
+    """
+     FORHINDRING 13
+     xxx
+    """
+
+    print("Starter forhindring 13")
+
+    # Tilføj kode til forhindring 13 her.
+
+    print("Forhindring 13 færdig")  
+
 
 
 #
@@ -451,56 +492,52 @@ async def forhin10():
 
 # De forskellige challenges der kører og hvonrår osv idk
 
-async def kør_forhindring(obs):
-    """
-     VÆLG FORHINDRING
+async def kør_forhindring(obs): # optimeret køre funktion
+
+    """ 
+    KØR FORHINDRING 
     """
     print("Forhindring nummer:", obs)
 
-    if obs == 1:
-        await forhin1()
+    forhindringer = {
+        1: forhin1, # brudt streg (part 1)
+        2: forhin2, # brudt streg (part 2)
+        3: forhin3, # flaske
+        4: forhin4, # tilbage fra flaske
+        5: forhin5, # drej imod vippe
+        6: forhin6, # vippe
+        7: forhin7, # 4 steger
+        8: forhin8, # til målskive
+        9: forhin9, # målskive
+        10: forhin10, # rund om flaske (1)
+        11: forhin11, # mur
+        12: forhin12, # rund om flaske (2)
+        13: forhin13 # landingsbane
+    }
 
-    elif obs == 2:
-        await forhin2()
+    funktion = forhindringer.get(obs)
 
-    elif obs == 3:
-        await forhin3()
-
-    elif obs == 4:
-        await forhin4()
-
-    elif obs == 5:
-        await forhin5()
-
-    elif obs == 6:
-        await forhin6()
-
-    elif obs == 7:
-        await forhin7()
-
-    elif obs == 8:
-        await forhin8()
-
-    elif obs == 9:
-        await forhin8()
-
-    elif obs == 10:
-        await forhin8()    
-
-    elif obs == 11:
-        await forhin8()
-
-    elif obs == 12:
-        await forhin8()
-
-    elif obs == 13:
-        await forhin8() 
-   
+    if funktion:
+        await funktion()
     else:
         print("Ingen kode til forhindring:", obs)
 
+def sensor_farve(sensor_port):
+    r, g, b, inten = color_sensor.rgbi(sensor_port)
+    reflection = color_sensor.reflection(sensor_port)
 
-async def grå_linje():
+    if reflection < 10 and b - r < 10:
+        return "black"
+    elif b - r > 15:
+        return "blue"
+    elif reflection > 45:
+        return "white"
+    else:
+        return "gray"
+
+
+
+async def grå_linje(): # tilføj en base_speed og correction_gain hvis vi vælger den anden løsning
 
     """
     NORMAL KØRSEL / GRÅ LINJE 
@@ -515,11 +552,7 @@ async def grå_linje():
 
         # Hvis ENTEN sensor C eller D registrerer sort,
         # er robotten nået til næste forhindring.
-        if (
-            color_sensor.color(port.C) == color.BLACK
-            or color_sensor.color(port.D) == color.BLACK
-        ):
-
+        if sensor_farve(port.C) == "black" or sensor_farve(port.D) == "black":
             # Stop robotten.
             motor_pair.stop(motor_pair.PAIR_1)
 
@@ -536,7 +569,6 @@ async def grå_linje():
             await kør_forhindring(obs)
 
             # Når forhindringen er færdig, fortsætter while-loopet automatisk.
-
         else:
 
             # Robotten følger den grå linje.
@@ -546,8 +578,18 @@ async def grå_linje():
             #
             # "rotten" >:) retter sig op ved at ændre hastighederne på motoren når den kører.
 
-            venstre_hastighed = color_sensor.reflection(port.D) * 2
-            højre_hastighed = color_sensor.reflection(port.C) * 2
+            venstre_hastighed = color_sensor.reflection(port.D) * 1 # 1 virkede bedre end 2 i tests
+            højre_hastighed = color_sensor.reflection(port.C) * 1 # 1 virkede bedre end 2 i tests
+
+            """
+            Anden måde at lave det på, kunne være bedre, da vi kan justere hastighed og korrektion uafhængigt
+            
+            I bestemmer
+
+            correction = int((color_sensor.reflection(port.D) - color_sensor.reflection(port.C))*correction_gain)
+            left_speed = base_speed + correction
+            right_speed = base_speed - correction
+            """
 
             motor_pair.move_tank(
                 motor_pair.PAIR_1,
