@@ -1,4 +1,4 @@
-from hub import port, motion_sensor, sound
+from hub import port, sound
 import runloop
 import motor_pair
 import color_sensor
@@ -6,601 +6,381 @@ import color
 
 
 """
-8888888b.   .d88888b. 88888888888 88888888888 8888888888 8888888b.         d8888 8888888888 .d8888b.  
-888   Y88b d88P" "Y88b    888         888     888        888   Y88b       d88888 888       d88P  Y88b 
-888    888 888     888    888         888     888        888    888      d88P888 888       Y88b.      
-888   d88P 888     888    888         888     8888888    888   d88P     d88P 888 8888888    "Y888b.   
-8888888P"  888     888    888         888     888        8888888P"     d88P  888 888           "Y88b. 
-888 T88b   888     888    888         888     888        888 T88b     d88P   888 888             "888 
-888  T88b  Y88b. .d88P    888         888     888        888  T88b   d8888888888 888       Y88b  d88P 
-888   T88b  "Y88888P"     888         888     8888888888 888   T88b d88P     888 8888888888 "Y8888P"                                                                                                    
-"""
 
+8888888b.   .d88888b. 88888888888 88888888888 8888888888 8888888b.         d88888888888 .d8888b.      8888888b. Y88b   d88P 
+888   Y88b d88P" "Y88b    888         888     888        888   Y88b       d88888       d88P  Y88b     888   Y88b Y88b d88P  
+888    888 888     888    888         888     888        888    888      d88P888       Y88b.          888    888  Y88o88P   
+888   d88P 888     888    888         888     8888888    888   d88P     d88P 8888888    "Y888b.       888   d88P   Y888P    
+8888888P"  888     888    888         888     888        8888888P"     d88P  888           "Y88b.     8888888P"     888     
+888 T88b   888     888    888         888     888        888 T88b     d88P   888             "888     888           888     
+888  T88b  Y88b. .d88P    888         888     888        888  T88b   d8888888888       Y88b  d88P d8b 888           888     
+888   T88b  "Y88888P"     888         888     8888888888 888   T88b d88P     8888888888 "Y8888P"  Y8P 888           888  
+
+"""
 
 """
 SETTINGS
 """
-
-base_speed = 200
+# Test RGBI og reflektion
+#print(color_sensor.reflection(port.D))
+#print(color_sensor.reflection(port.C))
+#
+#print(color_sensor.rgbi(port.D))
+#print(color_sensor.rgbi(port.C))
+#GRAA = (155, 152, 158, 359)
+#GRAA = (126, 125, 128, 288)
 
 obs = 0 # Cheks for current challenge
 
-THRESHOLD = 75 # Reflection-value under value is concidered a Dark Line - Adjust if necessary
-
-PITCH_THRESHOLD = 25  # pitch value that triggers "stop"
-
 motor_pair.pair(motor_pair.PAIR_1, port.B, port.A) # Motor A and B (from port a and b) is paired as PAIR_1
 
-
-# Gider ikke at ændre alle comments der er skrevet på engelsk til dansk eller omvendt, lev med det lol.
-
 async def forhin1():
-
     """
-     FORHINDRING 1
-     Brudt streg 1/2
+    FORHINDRING 1
+    Brudt streg 1/2
     """
-
     print("Starter opgave 1")
-    
-    # Stop robotten kort
-    motor_pair.stop(motor_pair.PAIR_1)
-    await runloop.sleep_ms(300)
-    
     # Drej til højre
     await motor_pair.move_tank_for_degrees(
         motor_pair.PAIR_1,
-        45,     # Grader
-        100,    # Hastighed venstre
-        0       # Hastighed Højre
+        180,    # Grader, som hjul(et/ene) dreger i alt
+        0,    # Hastighed Højre
+        200    # Hastighed Venstre
     )
+    # Kør hen til streg
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 410, 400, 400)
 
-    #   Turn left to go right, type shit.
-    #
-    #   ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⠿⠿⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿
-    #   ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⣉⣁⣤⣤⣶⣾⣿⣿⣶⡄⢲⣯⢍⠁⠄⢀⢹⣿
-    #   ⣿⣿⣿⣿⣿⣿⣿⣿⣿⢯⣾⣿⣿⣏⣉⣹⠿⠇⠄⠽⠿⢷⡈⠿⠇⣀⣻⣿⡿⣻
-    #   ⣿⣿⡿⠿⠛⠛⠛⢛⡃⢉⢣⡤⠤⢄⡶⠂⠄⠐⣀⠄⠄⠄⠄⠄⡦⣿⡿⠛⡇⣼
-    #   ⡿⢫⣤⣦⠄⠂⠄⠄⠄⠄⠄⠄⠄⠄⠠⠺⠿⠙⠋⠄⠄⠄⠢⢄⠄⢿⠇⠂⠧⣿
-    #   ⠁⠄⠈⠁⠄⢀⣀⣀⣀⣀⣠⣤⡤⠴⠖⠒⠄⠄⠄⠄⠄⠄⠄⠄⠄⠘⢠⡞⠄⣸
-    #   ⡀⠄⠄⠄⠄⠄⠤⠭⠦⠤⠤⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣂⣿
-    #   ⣷⡀⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢳⠄⠄⢀⠈⣠⣤⣤⣼⣿
-    #   ⣿⣿⣷⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣴⣶⣶⣶⣄⡀⠄⠈⠑⢙⣡⣴⣿⣿⣿⣿⣿
-    #   ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-    #   
-        
-    # Kør frem indtil en sensor finder den grå streg
-    while True:
-        venstre = color_sensor.reflection(port.D)
-        højre = color_sensor.reflection(port.C)
-        # Når den grå streg findes:
-        if venstre < THRESHOLD or højre < THRESHOLD:
-            break
-        # Ellers fortsæt lige frem
-        motor_pair.move_tank(
-            motor_pair.PAIR_1,
-            200,
-            200
-        )
-    
-        await runloop.sleep_ms(10)
-    
-        
-    # i har fundet stregen
-    motor_pair.stop(motor_pair.PAIR_1)
-    await runloop.sleep_ms(200)
-    
     # Ryk lidt længere frem, så robotten kommer hen på stregen
-    await motor_pair.move_tank_for_degrees(
-        motor_pair.PAIR_1,
-        30,
-        200,
-        200
-    )
-    
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 105, 210, 0)
+
     print("Opgave 1 færdig")
 
-
 async def forhin2():
-
     """
-     FORHINDRING 2
-     Brudt streg 2/2
+    FORHINDRING 2
+    Brudt streg 2/2
     """
 
     print("Starter opgave 2")
 
-    motor_pair.stop(motor_pair.PAIR_1)
-    await runloop.sleep_ms(300)
-    # Vitterligt det samme fra opgaven før, bare venstre istedet for højre
+    # Drej til højre
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 180, 200, 0)
 
-    # Drej til venstre
-    await motor_pair.move_tank_for_degrees(
-        motor_pair.PAIR_1,
-        45,
-        0,
-        100
-    )
+    # Kør hen til streg
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 410, 400, 400)
 
-    while True:
-        venstre = color_sensor.reflection(port.D)
-        højre = color_sensor.reflection(port.C)
-
-        if venstre < THRESHOLD or højre < THRESHOLD:
-            break
-
-        motor_pair.move_tank(
-            motor_pair.PAIR_1,
-            200,
-            200
-        )
-
-        await runloop.sleep_ms(10)
-
-    motor_pair.stop(motor_pair.PAIR_1)
-    await runloop.sleep_ms(200)
-
-    await motor_pair.move_tank_for_degrees(
-        motor_pair.PAIR_1,
-        30,
-        200,
-        200
-    )
+    # Ryk lidt længere frem, så robotten kommer hen på stregen
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 105, 0, 210)
 
     print("Opgave 2 færdig")
 
 
-
-
 async def forhin3():
-
     """
-     FORHINDRING 3
-     Skub Flske
+    FORHINDRING 3
+    Skub Flske
     """
 
     print("Starter forhindring 3")
 
-    # Stop robotten kort
-    motor_pair.stop(motor_pair.PAIR_1)
-    await runloop.sleep_ms(300)
-
+    # Kør lidt frem
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 185, 120, 120)
 
     # Drej skarpt til højre
-    await motor_pair.move_tank_for_degrees(
-        motor_pair.PAIR_1,
-        90,
-        100,
-        0
-    )
-
-    # Kør frem indtil en sensor finder den grå streg, og egentligt bare skal fortsætte,
-    # Indtil den finder den sorte streg, hvor flasken så vil være på den anden side at stregen.
-    while True:
-        venstre = color_sensor.reflection(port.D)
-        højre = color_sensor.reflection(port.C)
-        # Når den grå streg findes:
-        if venstre < THRESHOLD or højre < THRESHOLD:
-            break
-
-        # Ellers fortsæt lige frem
-        motor_pair.move_tank(
-            motor_pair.PAIR_1,
-            200,
-            200
-        )
-
-        await runloop.sleep_ms(10)
-
-    motor_pair.stop(motor_pair.PAIR_1)
-    await runloop.sleep_ms(200)
-
-    await motor_pair.move_tank_for_degrees(
-        motor_pair.PAIR_1,
-        30,
-        200,
-        200
-    )
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 120)
 
     print("Forhindring 3 færdig")
 
 
 async def forhin4():
-
     """
-     FORHINDRING 4
-     Tilbage fra flaske(/bak)
+    FORHINDRING 4
+    Tilbage fra flaske(/bak)
     """
-
     print("Starter forhindring 4")
 
-    # Stop robotten kort
-    motor_pair.stop(motor_pair.PAIR_1)
-    await runloop.sleep_ms(300)
+    # Bak
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, -1040, 200, 200)
 
+    # Ret hen, og "SLIP"
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 245, 200, -200)
+    print("Forhindring 4 færdig")
 
-    # Bak kortvarigt
-    await motor_pair.move_tank_for_degrees(
-        motor_pair.PAIR_1,
-        -180,
-        100,
-        100
-        )
-
-    # Vend 180grader eller hvor meget det her kommer til at blive når vi tester den lol
-    await motor_pair.move_tank_for_degrees(
-        motor_pair.PAIR_1,
-        90,
-        0,
-        200
-        )
-
-    # Følg streg til bunds
-    venstre_hastighed = color_sensor.reflection(port.D) * 2
-    højre_hastighed = color_sensor.reflection(port.C) * 2
-    
-    motor_pair.move_tank(
-        motor_pair.PAIR_1,
-        venstre_hastighed,
-        højre_hastighed
-    )
-
-    # Drej til højre
-
-
-    # Fortset som normalt
-
-
+    # Ryk lidt frem
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 140, 100, 120)
     print("Forhindring 4 færdig")
 
 
 async def forhin5():
-
     """
-     FORHINDRING 5
-     Drej imod vippe
+    FORHINDRING 5
+    Drej imod vippe
     """
 
     print("Starter forhindring 5")
-
-    motor_pair.stop(motor_pair.PAIR_1)
-    await runloop.sleep_ms(300)
-
     # Samme kode som flasken, da den bare skal dreje til venstre istedet for højre, og finde stregen
 
-    # Drej skarpt til venstre
-    await motor_pair.move_tank_for_degrees(
-        motor_pair.PAIR_1,
-        90,
-        0,
-        100
-    )
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 185, 120, 120)
 
-    while True:
-        venstre = color_sensor.reflection(port.D)
-        højre = color_sensor.reflection(port.C)
-
-        if venstre < THRESHOLD or højre < THRESHOLD:
-            break
-
-        motor_pair.move_tank(
-            motor_pair.PAIR_1,
-            200,
-            200
-        )
-
-        await runloop.sleep_ms(10)
-
-    motor_pair.stop(motor_pair.PAIR_1)
-    await runloop.sleep_ms(200)
-
-    await motor_pair.move_tank_for_degrees(
-        motor_pair.PAIR_1,
-        30,
-        200,
-        200
-    )
-
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 120, 0)
     print("Forhindring 5 færdig")
 
-
-async def forhin6(base_speed=200, correction_gain=3):
-
+async def forhin6():
     """
-     FORHINDRING 6
-     Vippe
+    FORHINDRING 6
+    Vippe
     """
 
-    print("Starter forhindring 6")
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 400, 600, 600)
 
-    motion_sensor.reset_yaw(0)
-    await runloop.sleep_ms(200)  # brief pause instead of waiting for motion_sensor.stable()
+    røv = 3150
+    while røv >= 0:
 
-    while True:
-        yaw, pitch, roll = motion_sensor.tilt_angles()
-        yaw_deg = yaw * -0.1     
-        pitch_deg = pitch / 10
+        await motor_pair.move_tank_for_degrees(
+        motor_pair.PAIR_1,
+        70,
+        color_sensor.reflection(port.C)*19,
+        color_sensor.reflection(port.D)*19
+        )
+        røv -= 70
 
-        # steer opposite the drift to correct back to initial yaw
-        correction = int(yaw_deg * correction_gain)
-        left_speed = base_speed + correction
-        right_speed = base_speed - correction
+ 
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 250, 180, 0)
 
-        print("driving | yaw:", yaw_deg, "pitch:", pitch_deg, "L/R:", left_speed, right_speed)
-        motor_pair.move_tank(motor_pair.PAIR_1, left_speed, right_speed)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 200, 120, 120)
 
-        if pitch_deg >= PITCH_THRESHOLD:
-            print("stop")
-            motor_pair.stop(motor_pair.PAIR_1)
-            while abs(pitch_deg) < 2: # juster 2 til at være korrekt ift. at være stationær
-                motor_pair.move_tank(motor_pair.PAIR_1, color_sensor.reflection(port.D), color_sensor.reflection(port.C)) # juster måske
-                break
-            motor_pair.move_tank_for_degrees(motor_pair.PAIR_1,90, 0, 100) # no clue om det her virker lol    
-            print("Forhindring 6 færdig")
-            break
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 20, 180, 0)
 
-        await runloop.sleep_ms(10)
-
+    print("Forhindring 6 færdig")
 
 async def forhin7():
     """
-     FORHINDRING 7
-     4-parralelle streger*?
+    FORHINDRING 7
+    4-parralelle streger*?
     """
+    print("Starter opgave 7")
+    # Drej til højre
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 180, 200, 0)
 
-    print("Starter forhindring 7")
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 400, 400, 400)
 
-    # Drej robotten og kør frem
-    motor_pair.move_tank_for_degrees(
-        motor_pair.PAIR_1,
-        45,
-        0,
-        100
-    )
-
-    await runloop.sleep_ms(300)
-
-    motor_pair.move_tank(
-        motor_pair.PAIR_1,
-        250,
-        250
-    )
-
-    # Antal streger der er blevet registreret.
-    count = 0
-
-    # Tjekker om sensor er på en "mørk streg"
-    on_bar = False
-
-    # Kryds antal streger
-    while count < 3:
-
-        # Læs reflektionsværdien fra sensor C.
-        reflection = color_sensor.reflection(port.C)
-
-        # Hvis reflektionsværdien er under THRESHOLD, er stregen "mørk"
-        currently_on_bar = reflection < THRESHOLD
-
-
-        # Tæl kun når sensoren går FRA lyst TIL mørkt.
-        #
-        #Ellers bliver samme streg talt flere gange, og det er noget røv
-        if currently_on_bar and not on_bar:
-            count += 1
-            print("Streger talt:", count)
-
-
-        # Gem om vi er på stregen til næste måling.
-        on_bar = currently_on_bar
-
-        # Vent 10 ms før næste måling.
-        await runloop.sleep_ms(10)
-
-
-    # Vi har nu fundet alle 4 streger.
-    motor_pair.stop(motor_pair.PAIR_1)
-
+    # Ryk lidt længere frem, så robotten kommer hen på stregen
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 100, 10, 200)
     print("Forhindring 7 færdig")
-    print("Antal streger krydset:", count)
-
 
 async def forhin8():
-
     """
-     FORHINDRING 8
-     xxx
+    FORHINDRING 8
+    Skydeskive
     """
 
     print("Starter forhindring 8")
 
-    # Tilføj kode til forhindring 8 her.
+    #
+    # Cirkelkode
+    #
+
+    # Robotten springer over cirklen, da koden ikke er skrevet
+    await motor_pair.move_tank_for_degrees(
+        motor_pair.PAIR_1,
+        100,
+        200,
+        200
+    )
 
     print("Forhindring 8 færdig")
 
+
 async def forhin9():
-
     """
-     FORHINDRING 9
-     xxx
+    FORHINDRING 9
+    Omkring flaske
     """
-
     print("Starter forhindring 9")
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 180, -20, 200)
 
-    # Tilføj kode til forhindring 9 her.
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 100, 200, 200)
 
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1450, 430, 300)
+
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 300, 80, 450)
     print("Forhindring 9 færdig")
 
+
 async def forhin10():
-
     """
-     FORHINDRING 10
-     xxx
+    FORHINDRING 10
+    Vægge
     """
-
     print("Starter forhindring 10")
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 800, 200, 200)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 180, 200, -20)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 100, 200, 200)
 
-    # Tilføj kode til forhindring 10 her.
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1360, 290, 460)
 
-    print("Forhindring 10 færdig")    
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 480, 460, 90)
+    print("Forhindring 10 færdig")
+
+
 
 async def forhin11():
-
     """
-     FORHINDRING 11
-     xxx
+    FORHINDRING 11
+    Omkring flaske
     """
-
     print("Starter forhindring 11")
+    await motor_pair.move_tank_for_degrees(
+        motor_pair.PAIR_1,
+        180,
+        200,
+        -20
+    )
 
-    # Tilføj kode til forhindring 11 her.
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 100, 200, 200)
 
-    print("Forhindring 11 færdig")  
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1380, 300, 430)
+
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 300, 470, 100)
+    print("Forhindring 11 færdig")
+
 
 async def forhin12():
-
     """
-     FORHINDRING 12
-     xxx
+    FORHINDRING 12
+    "Jesus, take the wheel!"
     """
-
     print("Starter forhindring 12")
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 3200, 420, 420)
 
-    # Tilføj kode til forhindring 12 her.
+    # LA MUSIKA #
+    TICKS_PER_BEAT = 384
+    TEMPO_US_PER_BEAT = 413793
+    VOLUME = 100
+    SPEED = 1.0
 
-    print("Forhindring 12 færdig")  
+    SONG = [(89, 96), (58, 96), (87, 96), (58, 96), (85, 96), (58, 288), (82, 96),
+            (58, 1056), (85, 96), (58, 1056), (89, 96), (58, 96), (87, 96), (58, 96), (85, 96),
+            (58, 288), (82, 96), (58, 1056), (85, 96), (58, 1056), (89, 96), (58, 96), (87, 96),
+            (58, 96), (85, 96), (58, 288), (82, 96), (58, 1056), (85, 96), (58, 1056), (89, 96),
+            (58, 96), (87, 96), (58, 96), (85, 96), (58, 288), (82, 96), (58, 1056), (85, 96),
+            (58, 672), (70, 384), (89, 96), (70, 96), (87, 96), (70, 96), (85, 96), (70, 288),
+            (82, 96), (70, 672), (73, 192), (75, 192), (85, 96), (77, 288), (68, 384), (70, 384),
+            (89, 96), (70, 96), (87, 96), (70, 96), (85, 96), (70, 288), (82, 96), (70, 672),
+            (73, 192), (75, 192), (85, 96), (77, 288), (68, 384), (70, 384), (89, 96), (70, 96),
+            (87, 96), (70, 96), (85, 96), (70, 288), (82, 96), (70, 672), (73, 192), (75, 192),
+            (85, 96), (77, 288), (68, 384), (70, 384), (89, 96), (70, 96), (87, 96), (70, 96),
+            (85, 96), (70, 288), (82, 96), (70, 672), (73, 192), (75, 192), (85, 96), (77, 288),
+            (68, 384), (82, 128), (70, 160), (82, 96), (70, 192), (82, 96), (70, 96), (85, 96),
+            (58, 96), (82, 96), (58, 96), (82, 96), (58, 96), (80, 96), (58, 288), (82, 128),
+            (58, 64), (73, 96), (82, 96), (75, 192), (85, 96), (77, 96), (82, 96), (77, 96),
+            (68, 384), (82, 128), (70, 160), (82, 96), (70, 192), (82, 96), (70, 96), (85, 96),
+            (58, 96), (82, 96), (58, 96), (82, 96), (58, 96), (80, 96), (58, 288), (82, 128),
+            (58, 64), (73, 96), (82, 96), (75, 192), (85, 96), (77, 96), (82, 96), (77, 96),
+            (68, 384), (82, 128), (70, 160), (82, 96), (70, 192), (82, 96), (70, 96), (85, 96),
+            (58, 96), (82, 96), (58, 96), (82, 96), (58, 96), (80, 96), (58, 288), (82, 128),
+            (58, 64), (73, 96), (82, 96), (75, 192), (85, 96), (77, 96), (82, 96), (77, 96),
+            (68, 384), (82, 128), (70, 160), (82, 96), (70, 192), (82, 96), (70, 96), (85, 96),
+            (58, 96), (82, 96), (58, 96), (82, 96), (58, 96), (80, 96), (58, 288), (82, 128),
+            (58, 64), (73, 96), (82, 96), (75, 192), (85, 96), (77, 96), (82, 96), (77, 96),
+            (58, 384), (82, 384), (89, 96), (82, 96), (87, 96), (82, 96), (85, 96), (82, 1056),
+            (85, 192), (87, 192), (89, 192), (58, 192), (80, 384), (82, 384), (89, 96), (82, 96),
+            (87, 96), (82, 96), (85, 96), (82, 1056), (85, 192), (87, 192), (89, 192), (58, 192),
+            (80, 384), (82, 384), (89, 96), (82, 96), (87, 96), (82, 96), (85, 96), (82, 1056),
+            (85, 192), (87, 192), (89, 192), (58, 192), (80, 384), (82, 384), (89, 96), (82, 96),
+            (87, 96), (82, 96), (85, 96), (82, 672), (80, 768), (85, 96), (77, 672), (70, 384),
+            (89, 96), (70, 96), (87, 96), (70, 96), (85, 96), (70, 288), (82, 96), (70, 672),
+            (73, 192), (75, 192), (85, 96), (77, 96), (58, 192), (68, 384), (70, 384), (89, 96),
+            (70, 96), (87, 96), (70, 96), (85, 96), (70, 288), (82, 96), (70, 672), (73, 192),
+            (75, 192), (85, 96), (77, 96), (58, 192), (68, 384), (70, 384), (89, 96), (70, 96),
+            (87, 96), (70, 96), (85, 96), (70, 288), (82, 96), (70, 672), (73, 192), (75, 192),
+            (85, 96), (77, 96), (58, 192), (68, 384), (70, 384), (89, 96), (70, 96), (87, 96),
+            (70, 96), (85, 96), (70, 288), (82, 96), (70, 288), (68, 768), (85, 96), (65, 672)]
+
+    def midi_to_hz(note):
+        return round(440 * (2 ** ((note - 69) / 12)))
+
+    def ticks_to_ms(ticks):
+        return max(
+            1,
+            round(ticks * TEMPO_US_PER_BEAT / TICKS_PER_BEAT / 1000 * SPEED)
+        )
+
+    async def main2():
+        for note, ticks in SONG:
+            duration = ticks_to_ms(ticks)
+            if note < 0:
+                await runloop.sleep_ms(duration)
+            else:
+                await sound.beep(midi_to_hz(note), duration, VOLUME)
+    runloop.run(main2())
+
+    await motor_pair.move_tank_for_degrees(
+        motor_pair.PAIR_1,
+        9999999999,
+        500,
+        5
+        )
+
+    motor_pair.stop(motor_pair.PAIR_1)
+
+    print("Forhindring 12 færdig")
 
 async def forhin13():
 
     """
-     FORHINDRING 13
-     xxx
+    FORHINDRING 13
+    LIGMA
     """
+    while True:
+        print("LIGMA")
 
-    print("Starter forhindring 13")
+# De forskellige challenges der kører og hvonrår osv.
+def grå_linje():
 
-    # Tilføj kode til forhindring 13 her.
+    motor_pair.move_tank(
+    motor_pair.PAIR_1,
+    color_sensor.reflection(port.C)*18,
+    color_sensor.reflection(port.D)*18
+    )
 
-    print("Forhindring 13 færdig")  
+    if color_sensor.color(port.D) is color.BLUE and color_sensor.color(port.D) is color.BLUE:
+        motor_pair.move_tank(
+        motor_pair.PAIR_1,
+        800,
+        800
+        )
+        return False
 
+    return(color_sensor.reflection(port.C) < 7
+    and color_sensor.reflection(port.D) < 7 and color_sensor.color(port.C) is color.BLACK and color_sensor.color(port.D) is color.BLACK)
 
-
-#
-#
-# 
-#         TILFØJ NU FORHELVEDE FLERE AF DE DER TEMPLATES HVIS DER ER BEHOV FOR DET,
-#         OG IKKE MINDST ENDNU EN CHALLENGE PÅ DEN DER LISTE UNDER
-#
-#
-
-
-# De forskellige challenges der kører og hvonrår osv idk
-
-async def kør_forhindring(obs): # optimeret køre funktion
-
-    """ 
-    KØR FORHINDRING 
+async def main():
+    """
+    KØR FORHINDRING
     """
     print("Forhindring nummer:", obs)
 
-    forhindringer = {
-        1: forhin1, # brudt streg (part 1)
-        2: forhin2, # brudt streg (part 2)
-        3: forhin3, # flaske
-        4: forhin4, # tilbage fra flaske
-        5: forhin5, # drej imod vippe
-        6: forhin6, # vippe
-        7: forhin7, # 4 steger
-        8: forhin8, # til målskive
-        9: forhin9, # målskive
-        10: forhin10, # rund om flaske (1)
-        11: forhin11, # mur
-        12: forhin12, # rund om flaske (2)
-        13: forhin13 # landingsbane
-    }
+    forhindringer = [
+        forhin1,
+        forhin2,
+        forhin3,
+        forhin4,
+        forhin5,
+        forhin6,
+        forhin7,
+        forhin8,
+        forhin9,
+        forhin10,
+        forhin11,
+        forhin12,
+        forhin13
+    ]
+    for forhin in forhindringer:
+        await runloop.until(grå_linje)
+        await forhin()
 
-    funktion = forhindringer.get(obs)
-
-    if funktion:
-        await funktion()
     else:
         print("Ingen kode til forhindring:", obs)
 
-def sensor_farve(sensor_port):
-    r, g, b, inten = color_sensor.rgbi(sensor_port)
-    reflection = color_sensor.reflection(sensor_port)
-
-    if reflection < 10 and b - r < 10:
-        return "black"
-    elif b - r > 15:
-        return "blue"
-    elif reflection > 45:
-        return "white"
-    else:
-        return "gray"
-
-
-
-async def grå_linje(): # tilføj en base_speed og correction_gain hvis vi vælger den anden løsning
-
-    """
-    NORMAL KØRSEL / GRÅ LINJE 
-    (Brydes ved sort streg)
-    """
-
-    global obs
-
-
-    # Hoved-loopet kører hele tiden.
-    while True:
-
-        # Hvis ENTEN sensor C eller D registrerer sort,
-        # er robotten nået til næste forhindring.
-        if sensor_farve(port.C) == "black" or sensor_farve(port.D) == "black":
-            # Stop robotten.
-            motor_pair.stop(motor_pair.PAIR_1)
-
-
-            # Gå videre til næste forhindring.
-            obs += 1
-
-            print("--------------------")
-            print("Fundet forhindring:", obs)
-            print("--------------------")
-
-
-            # Kør den korrekte forhindring ifølge den der fuckass liste med alle challenges.
-            await kør_forhindring(obs)
-
-            # Når forhindringen er færdig, fortsætter while-loopet automatisk.
-        else:
-
-            # Robotten følger den grå linje.
-            #
-            # Sensor D styrer den ene motor.
-            # Sensor C styrer den anden motor.
-            #
-            # "rotten" >:) retter sig op ved at ændre hastighederne på motoren når den kører.
-
-            venstre_hastighed = color_sensor.reflection(port.D) * 1 # 1 virkede bedre end 2 i tests
-            højre_hastighed = color_sensor.reflection(port.C) * 1 # 1 virkede bedre end 2 i tests
-
-            """
-            Anden måde at lave det på, kunne være bedre, da vi kan justere hastighed og korrektion uafhængigt
-            
-            I bestemmer
-
-            correction = int((color_sensor.reflection(port.D) - color_sensor.reflection(port.C))*correction_gain)
-            left_speed = base_speed + correction
-            right_speed = base_speed - correction
-            """
-
-            motor_pair.move_tank(
-                motor_pair.PAIR_1,
-                venstre_hastighed,
-                højre_hastighed
-            )
-
-        # Vent 10 ms før næste sensoraflæsning.
-        await runloop.sleep_ms(10)
-
-runloop.run(grå_linje()) # Programmet er more or less det hovedprogram der køres, når der ikke er en aktiv challenge.
+runloop.run(main()) # Programmet er more or less det hovedprogram der køres, når der ikke er en aktiv challenge.
