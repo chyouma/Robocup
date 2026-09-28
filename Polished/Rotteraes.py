@@ -133,14 +133,14 @@ async def forhin6():
 
     await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 400, 600, 600)
 
-    røv = 3150
+    røv = 3140
     while røv >= 0:
 
         await motor_pair.move_tank_for_degrees(
         motor_pair.PAIR_1,
         70,
-        color_sensor.reflection(port.C)*19,
-        color_sensor.reflection(port.D)*19
+        color_sensor.reflection(port.C)*18,
+        color_sensor.reflection(port.D)*18
         )
         røv -= 70
 
