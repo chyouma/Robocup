@@ -45,13 +45,13 @@ async def forhin1():
         motor_pair.PAIR_1,
         180,    # Grader, som hjul(et/ene) dreger i alt
         0,    # Hastighed Højre
-        200    # Hastighed Venstre
+        240    # Hastighed Venstre
     )
     # Kør hen til streg
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 410, 400, 400)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 410, 440, 440)
 
     # Ryk lidt længere frem, så robotten kommer hen på stregen
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 105, 210, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 105, 260, 0)
 
     print("Opgave 1 færdig")
 
@@ -64,13 +64,13 @@ async def forhin2():
     print("Starter opgave 2")
 
     # Drej til højre
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 180, 200, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 180, 260, 0)
 
     # Kør hen til streg
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 410, 400, 400)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 410, 440, 440)
 
     # Ryk lidt længere frem, så robotten kommer hen på stregen
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 105, 0, 210)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 105, 0, 240)
 
     print("Opgave 2 færdig")
 
@@ -84,7 +84,7 @@ async def forhin3():
     print("Starter forhindring 3")
 
     # Kør lidt frem
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 200, 400, 400)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 200, 440, 440)
 
 
     print("Forhindring 3 færdig")
@@ -98,9 +98,9 @@ async def forhin4():
     print("Starter forhindring 4")
     # Samme kode som flasken, da den bare skal dreje til venstre istedet for højre, og finde stregen
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 185, 180, 180)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 185, 260, 260)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 180, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 260, 0)
     print("Forhindring 4 færdig")
 
 async def forhin5():
@@ -112,13 +112,13 @@ async def forhin5():
     # Drej til højre
     await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 300, -20, 190)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1390, 400, 400)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1390, 440, 440)
 
     await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 250, 180, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 180, 120, 120)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 180, 260, 260)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 20, 180, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 20, 200, 0)
 
     print("Forhindring 5 færdig")
 
@@ -132,7 +132,7 @@ async def forhin6():
     # Drej til højre
     await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 180, 200, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 400, 400, 400)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 400, 440, 440)
 
     # Ryk lidt længere frem, så robotten kommer hen på stregen
     await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 100, 10, 200)
@@ -148,13 +148,13 @@ async def forhin7():
 
     await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 300, -20, 190)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1680, 400, 400)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1680, 440, 440)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 360, 0, 180)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 360, 0, 200)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 200, 120, 120)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 200, 160, 160)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 30, 180, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 30, 200, 0)
 
     print("Forhindring 7 færdig")
 
@@ -277,8 +277,8 @@ def grå_linje():
 
     motor_pair.move_tank(
     motor_pair.PAIR_1,
-    color_sensor.reflection(port.C)*18,
-    color_sensor.reflection(port.D)*18
+    color_sensor.reflection(port.C)*20,
+    color_sensor.reflection(port.D)*20
     )
 
     if color_sensor.color(port.D) is color.BLUE and color_sensor.color(port.D) is color.BLUE:
