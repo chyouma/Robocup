@@ -31,124 +31,125 @@ async def forhin1():
     Sindssyg hidsig bombastic ashh intro - MR. BOMBASTIC
     """
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1080, 0, 200)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1080, 0, 600)
 
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 80, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 600, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 80)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 600)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 80, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 600, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 80)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 600)
 
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1080, 200, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1080, 600, 0)
 
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 80, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 600, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 80)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 600)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 80, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 600, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 80)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 600)
 
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1080, 0, 200)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1080, 0, 600)
 
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 80, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 600, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 80)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 600)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 80, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 600, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 80)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 600)
 
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1080, 200, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1080, 600, 0)
 
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 80, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 600, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 80)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 600)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 80, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 600, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 80)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 600)
 
-        
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1080, 0, 200)
 
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1080, 0, 600)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 80, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 80)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 600, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 80, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 600)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 80)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 600, 0)
 
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 600)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1080, 200, 0)
 
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1080, 600, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 80, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 80)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 600, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 80, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 600)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 80)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 600, 0)
 
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 600)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1080, 0, 200)
 
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1080, 0, 600)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 80, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 80)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 600, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 80, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 600)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 80)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 600, 0)
 
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 600)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1080, 200, 0)
 
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1080, 600, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 80, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 80)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 600, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 80, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 600)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 80)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 600, 0)
 
-    
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1080, 0, 200)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 600)
 
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 80, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1080, 0, 600)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 80)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 80, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 600, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 80)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 600)
 
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 600, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1080, 200, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 600)
 
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 80, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 1080, 600, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 80)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 80, 0)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 600, 0)
 
-    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 80)
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 600)
+
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 600, 0)
+
+    await motor_pair.move_tank_for_degrees(motor_pair.PAIR_1, 270, 0, 600)
+
 
 async def forhin2():
 
